@@ -180,3 +180,15 @@ make && \
   ./filter_tool data/signal.csv data/output_signal.csv 0.12 && \
   python viz/plot_filter.py data/output_signal.csv
 ```
+
+### Sample plots
+
+Pre-rendered charts from the bundled CSVs are committed to `data/` so
+the results can be inspected without setting up Python:
+
+- `data/output_signal_chart.png` — noisy sinusoid, `alpha=0.12`
+- `data/output_square_chart.png` — square wave, `alpha=0.20`
+
+![Signal — alpha=0.12](data/output_signal_chart.png)
+
+![Square wave — alpha=0.20](data/output_square_chart.png)
