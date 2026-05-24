@@ -45,6 +45,9 @@ introduce a startup ramp from zero.
 │   ├── filter.c         # EMA implementation (malloc or static pool)
 │   └── csv_parser.c     # File I/O, line parsing
 ├── data/                # Input CSVs (signal.csv, square.csv)
+├── viz/                 # Python + Matplotlib visualization
+│   ├── plot_filter.py
+│   └── requirements.txt
 └── Makefile
 ```
 
@@ -134,4 +137,46 @@ void on_dma_complete(void) {
     filter_array_in_place(adc_buffer, ADC_BUF_LEN, 0.12f);
     // adc_buffer now holds the smoothed samples
 }
+```
+
+---
+
+## Visualization (optional)
+
+Not required for the project itself — just a convenience for inspecting
+results. `viz/plot_filter.py` is a small Matplotlib script that plots the
+raw signal against the filtered one. It accepts both the 3-column output
+CSV (`t,raw,filtered`) and the 2-column input CSV (`t,value`).
+
+### Setup (one-time)
+
+A virtual environment is recommended on macOS, where the system Python
+is locked down:
+
+```bash
+python3 -m venv viz/.venv
+source viz/.venv/bin/activate
+pip install -r viz/requirements.txt
+```
+
+### Run
+
+```bash
+# Filter first, then plot the result in an interactive window
+./filter_tool data/signal.csv data/output_signal.csv 0.12
+python viz/plot_filter.py data/output_signal.csv
+
+# Save the plot to a PNG instead of opening a window
+python viz/plot_filter.py data/output_signal.csv --save signal_filtered.png
+
+# Custom title (useful when comparing different alpha values)
+python viz/plot_filter.py data/output_square.csv --title "square wave, alpha=0.20"
+```
+
+### End-to-end one-liner
+
+```bash
+make && \
+  ./filter_tool data/signal.csv data/output_signal.csv 0.12 && \
+  python viz/plot_filter.py data/output_signal.csv
 ```
