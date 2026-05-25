@@ -1,0 +1,14 @@
+# Virtual environment
+.venv/
+venv/
+
+# Python bytecode cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Generated plots
+*.png
+*.jpg
+*.pdf
+*.svg
